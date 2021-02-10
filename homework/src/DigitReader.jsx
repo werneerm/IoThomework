@@ -4,10 +4,9 @@ import "./style/DigitReader.css"
 
 function DigitReader(props) {
     const [accountNumbers,setAccountNumbers] = useState();
-    const [rawCharacter,setRawCharacter] = useState(props.raw)
+    const [rawCharacter] = useState(props.raw)
     const DIGIT_WIDTH = 3;
     const BACKSLASH = "\\"
-    const [number,setNumber] =useState();
     const [isLoading,setIsLoading] = useState(true);
 
     var accountNumDict = {
@@ -145,8 +144,8 @@ function DigitReader(props) {
       if(checksum(account)) { setAccountNumbers(accountNumbers,{num:account,valid:"OK"}); }
       
       for(let currentPos = 0; currentPos <= 9; currentPos++) {
-        let altDigits = checkMissingPipes(convertingDigitToNum(currentPos,rawCharacter));
-        altDigits.forEach(function (altDigit) {
+        let alternativeDigits = checkMissingPipes(convertingDigitToNum(currentPos,rawCharacter));
+        alternativeDigits.forEach(function (altDigit) {
           let accountNum = account.substr(0, currentPos) + altDigit + account.substr(currentPos + 1);
           //here we checking if the alternates are correct based on out checksum
           if(checksum(accountNum)) {
@@ -169,7 +168,6 @@ function DigitReader(props) {
     
     useEffect(()  => {
         let account = readFile();
-        setNumber(account)
         checkIfChange(account);
         setIsLoading(false)
 
